@@ -2,18 +2,21 @@ import math
 
 
 diz={  0:[1,2],
-            1:[0,5],
-            2:[0,3],
-            3:[2,4,5],
-            4:[3,6,7],
-            5:[1,3],
-            6:[4,7],
-            7:[4,6]}  
+        1:[3,0],
+        2:[0],
+        3:[1],
+        4:[2,6,0],
+        5:[2,3],
+        6:[6,7],
+        7:[7,2]
+}  
+
+#dijkstra nella funzione
 
 def dijkstra(graph,initial,finish,dim):
     labelList = [math.inf] * len(graph) #inizializzazione delle label (moltiplico per il numero di nodi per le righe)
-    labelList[initial] = 0                    #distanza dal nodo sorgente = 0
-    unexploredNode = []   #nodi da esplorare
+    labelList[initial] = 0  #distanza dal nodo sorgente è 0
+    unexploredNode = []   
 
     for cont in range(dim):
         unexploredNode.append(cont)
@@ -21,11 +24,7 @@ def dijkstra(graph,initial,finish,dim):
     cntPasso=0
 
     while len(unexploredNode)>0:
-        #print("Passo numero: %d"% cntPasso)
-        #print("Nodi inesplorati: ", unexploredNode)
-        #print("Lista delle label: ", labelList)
-        #print("-----------------------------------------------")
-        #scelgo il nodo con label minore(k)
+       
         infiniteList = [math.inf] * len(graph)
         
         for i in unexploredNode:
@@ -51,27 +50,26 @@ def dijkstra(graph,initial,finish,dim):
     return labelList
 
 def generateGraph(diz):
-    nodeNumber=0
     graph=[]
-    for key,value in diz.items():      #stampo il dizionario
-        print("%s --> %s" %(key,value))
-        nodeNumber+=1
-    
-    #graph = [[False]*nodeNumber]*nodeNumber
+    nodi=0
 
-    graph = [[False for r in range(nodeNumber)] for c in range(nodeNumber)] #inizializzo la matrice a false
+    for key,value in diz.items():      #visualizzo dizionario
+        print("%s --> %s" %(key,value))
+        nodi+=1
+    
+    graph = [[False for r in range(nodi)] for c in range(nodi)] #inizializzo la matrice a false
     
     for key,value in diz.items():
         for k in value:
-            graph[key][k] = True        #scorrendo la ista assegno true alle celle dei nodi collegati fra loro così da creare l grafo
+            graph[key][k] = True        #viene assegnato true alle celle dei nodi collegati fra loro 
 
-    return graph,nodeNumber
+    return graph,nodi
 
 
 start = int(input("inserire il nodo di partenza: "))
+
 finish = int(input("inserire il nodo di arrivo: "))
 
 graph,dim = generateGraph(diz)
 
 dijkstra(graph,start,finish,dim)
-#print(graph)
